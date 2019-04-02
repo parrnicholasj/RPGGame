@@ -107,7 +107,8 @@ $(document).ready(function () {
   var pickOpponentStage = false;
   var fightStage = false;
 
-
+  var a;
+  
   //function builds out the new order so they can be styled correctly
 
   function builder (x){//give index of temps slot to put in order
@@ -125,9 +126,9 @@ $(".row").append(temps[x]);
     //set to col-3s reduce margin on container
     $(".card").removeClass("col-6 col-4").addClass("col-3");
 
-    $(".card").click(function () {
+    $("#characters").on("click", ".card", function () { //can only click on things that were always there from beginnig
 
-var a;
+
       for (var i = 0; i < primarchs.length; i++) {
 
         if (($(this).attr('id') == primarchs[i].name) && charSelectStage) {
@@ -136,7 +137,8 @@ var a;
           console.log(primarchs[i]);
           charSelectStage = false;
           pickOpponentStage = true;
-          a = i;//set for builder
+          a = i;
+          
 
         }
 
@@ -157,7 +159,7 @@ var a;
 
       }
 
-      $(".card").removeClass("col-9 col-3").addClass("col-4"); //set everyone then overwrite for player
+      $(".card").removeClass("col-9 col-3").addClass("col-4 enemy"); //set everyone then overwrite for player
 
       for (var i = 0; i < primarchs.length; i++) { //move everything to stage two positions
 
@@ -166,7 +168,7 @@ var a;
 
 
           console.log(primarchs[i]);
-          $(this).removeClass("col-3 col-4").addClass("col-9");
+          $(this).removeClass("col-3 col-4").addClass("col-9 player");
 
         }
 
@@ -183,13 +185,30 @@ var a;
   //stage 2
   //player char is large and on one side of screen with remaining enemies highlighted while defeated enemies are greyed out
 
-  if (pickOpponentStage) {
+  $("#characters").on("click", ".enemy", function () {
 
-    // make player char col-6 others col-4
-    console.log("here");
+    console.log("click");
 
+    if (pickOpponentStage){
+      
 
-  }
+      for (var i = 0; i < primarchs.length; i++) {
+
+        if (($(this).attr('id') == primarchs[i].name) && pickOpponentStage) {
+
+          primarchs[i].active = true;
+          console.log(primarchs[i]);
+          pickOpponentStage = false
+          fightStage = true;
+          $(this).removeClass("col-3 col-4").addClass("col-9");          
+
+        }
+
+      }
+
+    }
+
+  });
 
   //stage 3
   //fight stage player and enemy they are fighting are large and on either side of screen with other enemies at top
