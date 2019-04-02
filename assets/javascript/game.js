@@ -63,18 +63,34 @@ $(document).ready(function () {
 
     $(".card").click(function () {
 
-      for (var i = 0; primarchs.length; i++) {
+      
+      for (var i = 0; i < primarchs.length; i++) {
 
-        if ($(this).attr('id') == primarchs[i].name)
+        if (($(this).attr('id') == primarchs[i].name) && charSelectStage)
         {
 
           primarchs[i].isPlayer = true;
           console.log(primarchs[i]);
           charSelectStage = false;
           pickOpponentStage = true;
+          console.log(pickOpponentStage);
 
+          
         }
 
+      }
+
+      for (var i = 0; i < primarchs.length; i++){//move everything to stage two positions
+
+        console.log(primarchs[i]);
+        if (($(".card").attr('id') == primarchs[i].name) && primarchs[i].isPlayer == true){//find player and make them take up col-6
+  
+          $(".card").removeClass("col-3 col-4").addClass("col-6");
+  
+        }else{
+          $(".card").removeClass("col-6 col-3").addClass("col-4");//everybody else is col-4
+        }
+          
       }
 
     });
@@ -89,6 +105,8 @@ $(document).ready(function () {
   if (pickOpponentStage) {
 
     // make player char col-6 others col-4
+console.log("here");
+    
 
   }
 
