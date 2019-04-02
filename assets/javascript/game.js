@@ -47,11 +47,75 @@ $(document).ready(function () {
     }
   ]
 
+  var temps = [
+
+    `<div id="Dorn" class="card text-center">
+<div class="card-header">
+  Dorn
+</div>
+<div class="card-body">
+  <img class="card-img-top" src="assets/images/dorn.jpg" alt="Rogal Dorn">
+</div>
+<div class="card-footer text-muted">
+  2 days ago
+</div>
+</div>`,//perturabo -----------------------------------------------------------------------------------------
+
+`<div id="Perturabo" class="card text-center">
+<div class="card-header">
+  Perturabo
+</div>
+<div class="card-body">
+  <img class="card-img-top" src="assets/images/perturabo.jpg" alt="Perturabo">
+</div>
+<div class="card-footer text-muted">
+  2 days ago
+</div>
+</div>`,//Angron ---------------------------------------------------------------------------------------------
+
+`<div id="Angron" class="card text-center">
+<div class="card-header">
+  Angron
+</div>
+<div class="card-body">
+  <img class="card-img-top" src="assets/images/Angron.jpg" alt="Angron">
+</div>
+<div class="card-footer text-muted">
+  2 days ago
+</div>
+</div>`,// Sanguinius _---------------------------------------------------------------------------------------
+
+`<div id="Sanguinius" class="card text-center">
+<div class="card-header">
+  Sanguinius
+</div>
+<div class="card-body">
+  <img class="card-img-top" src="assets/images/sanguinius.jpg" alt="Sanguinius">
+  <div class="card-footer text-muted">
+    2 days ago
+  </div>
+</div>
+</div>
+</div>`
+
+
+
+  ]
+
 
   var charSelectStage = true; //starts at char select
   var pickOpponentStage = false;
   var fightStage = false;
 
+
+  //function builds out the new order so they can be styled correctly
+
+  function builder (x){//give index of temps slot to put in order
+
+$(".row").append(temps[x]);
+
+
+  }
 
   //stage character select
   // selected characters large in center of screen for player to choose
@@ -63,34 +127,51 @@ $(document).ready(function () {
 
     $(".card").click(function () {
 
-      
+var a;
       for (var i = 0; i < primarchs.length; i++) {
 
-        if (($(this).attr('id') == primarchs[i].name) && charSelectStage)
-        {
+        if (($(this).attr('id') == primarchs[i].name) && charSelectStage) {
 
           primarchs[i].isPlayer = true;
           console.log(primarchs[i]);
           charSelectStage = false;
           pickOpponentStage = true;
-          console.log(pickOpponentStage);
+          a = i;//set for builder
 
-          
         }
 
       }
 
-      for (var i = 0; i < primarchs.length; i++){//move everything to stage two positions
+      //remove everything but selected to rebuild in order
+      $(".card").not($(this)).remove();
 
-        console.log(primarchs[i]);
-        if (($(".card").attr('id') == primarchs[i].name) && primarchs[i].isPlayer == true){//find player and make them take up col-6
-  
-          $(".card").removeClass("col-3 col-4").addClass("col-6");
-  
-        }else{
-          $(".card").removeClass("col-6 col-3").addClass("col-4");//everybody else is col-4
+      //get first index then build the rest
+
+      
+      for (var i = 0; i < temps.length; i++){
+
+        if (i != a){
+          builder(i);
+          console.log(i);
         }
-          
+
+      }
+
+      $(".card").removeClass("col-9 col-3").addClass("col-4"); //set everyone then overwrite for player
+
+      for (var i = 0; i < primarchs.length; i++) { //move everything to stage two positions
+
+        console.log(primarchs[i].isPlayer);
+        if (($(this).attr('id') == primarchs[i].name) && primarchs[i].isPlayer == true) { //find player and make them take up col-6
+
+
+          console.log(primarchs[i]);
+          $(this).removeClass("col-3 col-4").addClass("col-9");
+
+        }
+
+
+
       }
 
     });
@@ -105,8 +186,8 @@ $(document).ready(function () {
   if (pickOpponentStage) {
 
     // make player char col-6 others col-4
-console.log("here");
-    
+    console.log("here");
+
 
   }
 
